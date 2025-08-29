@@ -64,7 +64,7 @@
 ## 🏗️ Architecture
 
 ```
-mock_server/
+dart_rest_api_starter_kit/
 ├── 📁 lib/
 │   ├── 🏗️ core/                    # Shared components
 │   │   ├── ⚙️ config/              # Configuration management
@@ -100,7 +100,7 @@ mock_server/
 1. **Clone the repository:**
    ```bash
    git clone <repository-url>
-   cd mock_server
+   cd dart_rest_api_starter_kit
    ```
 
 2. **Install dependencies:**
@@ -354,7 +354,7 @@ CMD ["/server"]
 ```yaml
 version: '3.8'
 services:
-  mock-server:
+  dart-rest-api-starter-kit:
     build: .
     ports:
       - "8080:8080"
@@ -373,10 +373,10 @@ services:
 docker-compose up --build -d
 
 # View logs
-docker-compose logs -f mock-server
+docker-compose logs -f dart-rest-api-starter-kit
 
 # Scale the service
-docker-compose up -d --scale mock-server=3
+docker-compose up -d --scale dart-rest-api-starter-kit=3
 ```
 
 ### ☁️ Cloud Deployment
@@ -384,11 +384,11 @@ docker-compose up -d --scale mock-server=3
 #### **Google Cloud Run**
 ```bash
 # Build container
-gcloud builds submit --tag gcr.io/PROJECT-ID/mock-server
+gcloud builds submit --tag gcr.io/PROJECT-ID/dart-rest-api-starter-kit
 
 # Deploy to Cloud Run
-gcloud run deploy mock-server \
-  --image gcr.io/PROJECT-ID/mock-server \
+gcloud run deploy dart-rest-api-starter-kit \
+  --image gcr.io/PROJECT-ID/dart-rest-api-starter-kit \
   --platform managed \
   --port 8080 \
   --allow-unauthenticated \
@@ -399,9 +399,9 @@ gcloud run deploy mock-server \
 ```bash
 # Using AWS CLI
 aws ecs create-service \
-  --cluster mock-server-cluster \
-  --service-name mock-server \
-  --task-definition mock-server-task \
+  --cluster dart-rest-api-starter-kit-cluster \
+  --service-name dart-rest-api-starter-kit \
+  --task-definition dart-rest-api-starter-kit-task \
   --desired-count 2 \
   --launch-type FARGATE
 ```
