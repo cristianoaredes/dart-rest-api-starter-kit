@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:mock_server/server.dart';
+import 'package:dart_rest_api_starter_kit/server.dart';
 
 void main(List<String> args) async {
   final port = int.tryParse(Platform.environment['PORT'] ?? '') ?? 8080;

@@ -1,26 +1,28 @@
 openapi: 3.0.3
 info:
-  title: Mock Server API - Cidadão App
+  title: Dart REST API Starter Kit
   version: 1.0.0
   description: |
-    API documentation for the Cidadão App Mock Server.
-    A production-ready mock server with multi-database support, comprehensive monitoring, and enterprise-grade architecture.
+    Complete REST API starter kit with Dart/Shelf featuring JWT authentication, security middlewares, monitoring, and enterprise-grade architecture.
 
     ## Features:
-    - Authentication & Authorization
-    - User Management
+    - Authentication & Authorization (JWT)
+    - User Management & Profile
     - AI-powered recommendations
-    - Content embeddings
-    - Health monitoring
+    - Content embeddings & semantic search
+    - Health monitoring & metrics
+    - Rate limiting & security headers
+    - OpenAPI 3.0.3 documentation
 
   contact:
-    name: API Support
-    email: support@cidadao-app.com
+    name: Cristiano Aredes
+    email: contact@cristianoaredes.dev
+    url: https://aredes.me
 
 servers:
   - url: http://localhost:8080
     description: Development server
-  - url: https://api.cidadao-app.com
+  - url: https://api.yourdomain.com
     description: Production server
 
 security:

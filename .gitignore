@@ -55,7 +55,7 @@ node_modules/
 *.sqlite
 *.sqlite3
 data/
-mock_server.db
+dart_rest_api_starter_kit.db
 
 # Environment files
 .env
@@ -69,7 +69,7 @@ mock_server.db
 
 # Process ID files
 *.pid
-mock_server.pid
+dart_rest_api_starter_kit.pid
 
 # Logs and debugging
 logs/

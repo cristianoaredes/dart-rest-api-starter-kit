@@ -119,7 +119,7 @@ class ApiServer {
         .addHandler(customHandler);
 
     final server = await serve(handler, ip, port);
-    print('🚀 Mock Server Production-Ready!');
+    print('🚀 Dart REST API Starter Kit - Production-Ready!');
     print('🌐 Listening on http://${server.address.host}:${server.port}');
     print('📊 Environment: ${_config.environment}');
     print('🔧 Features:');

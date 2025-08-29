@@ -772,11 +772,11 @@ SOFTWARE.
 
 <div align="center">
 
-**🚀 Mock Server - Production-Ready REST API**
+**🚀 Dart REST API Starter Kit**
 
 *Built with ❤️ using Dart and Shelf*
 
-[![Star on GitHub](https://img.shields.io/github/stars/your-org/mock-server?style=social)](https://github.com/your-org/mock-server)
-[![Follow on Twitter](https://img.shields.io/twitter/follow/mockserver?style=social)](https://twitter.com/mockserver)
+[![Star on GitHub](https://img.shields.io/github/stars/your-org/dart-rest-api-starter-kit?style=social)](https://github.com/your-org/dart-rest-api-starter-kit)
+[![Follow on Twitter](https://img.shields.io/twitter/follow/cristianoaredes?style=social)](https://twitter.com/cristianoaredes)
 
 </div>
