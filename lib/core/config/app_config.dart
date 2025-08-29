@@ -59,7 +59,7 @@ class AppConfig {
       },
       'database': {
         'type': 'sqlite',
-        'path': 'data/mock_server.db',
+        'path': 'data/dart_rest_api_starter_kit.db',
         'max_connections': 10,
         'timeout': 30,
       },

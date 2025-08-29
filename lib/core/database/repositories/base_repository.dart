@@ -33,7 +33,7 @@ abstract class BaseRepository {
   /// Get database file path
   Future<String> _getDatabasePath() async {
     final directory = Directory.current;
-    final dbPath = '${directory.path}/data/mock_server.db';
+    final dbPath = '${directory.path}/data/dart_rest_api_starter_kit.db';
 
     // Ensure the data directory exists
     final dataDir = Directory('${directory.path}/data');

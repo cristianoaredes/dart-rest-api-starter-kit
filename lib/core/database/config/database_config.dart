@@ -5,7 +5,7 @@ import 'package:path/path.dart' as path;
 /// Database configuration and connection manager
 class DatabaseConfig {
   static Database? _database;
-  static const String _dbFileName = 'mock_server.db';
+  static const String _dbFileName = 'dart_rest_api_starter_kit.db';
 
   /// Get the database instance (singleton pattern)
   static Future<Database> get database async {
