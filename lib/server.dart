@@ -21,13 +21,13 @@ import '../features/ai/routes/ai_routes.dart';
 import '../features/ai/handlers/ai_handler.dart';
 
 /// Main application server
-class MockServer {
+class ApiServer {
   final int port;
   final InternetAddress ip;
   late final AppConfig _config;
   late final RateLimitingMiddleware _rateLimiter;
 
-  MockServer({
+  ApiServer({
     int? port,
     InternetAddress? ip,
   }) : port = port ?? 8080,
@@ -196,6 +196,6 @@ Future<HttpServer> startMockServer({
   int port = 8080,
   InternetAddress? ip,
 }) async {
-  final server = MockServer(port: port, ip: ip);
+  final server = ApiServer(port: port, ip: ip);
   return await server.start();
 }

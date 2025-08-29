@@ -1,6 +1,6 @@
-name: mock_server
-description: Simple Shelf mock server for cidadao_app APIs - organized by features
-version: 0.1.0
+name: dart_rest_api_starter_kit
+description: Production-ready REST API starter kit with Dart/Shelf featuring JWT authentication, security middlewares, monitoring, and enterprise-grade architecture.
+version: 1.0.0
 environment:
   sdk: ">=3.0.0 <4.0.0"
 

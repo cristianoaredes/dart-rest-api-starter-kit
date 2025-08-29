@@ -29,7 +29,7 @@ class SecurityHeadersMiddleware {
         'Strict-Transport-Security': 'max-age=31536000; includeSubDomains; preload',
 
         // Server information (hide server details)
-        'Server': 'MockServer/1.0',
+        'Server': 'DartRESTAPIStarterKit/1.0',
 
         // Cache control for sensitive endpoints
         if (_isSensitiveEndpoint(request.url.path))

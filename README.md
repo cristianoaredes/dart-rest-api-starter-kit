@@ -1,164 +1,336 @@
-# Mock Server - Production Ready with Multi-Database Support
+# 🚀 Dart REST API Starter Kit
 
-A production-ready mock server built with Dart/Shelf featuring multi-database support, comprehensive monitoring, and enterprise-grade architecture.
+[![Dart](https://img.shields.io/badge/Dart-2.19+-blue.svg)](https://dart.dev/)
+[![Shelf](https://img.shields.io/badge/Shelf-1.4+-green.svg)](https://pub.dev/packages/shelf)
+[![SQLite](https://img.shields.io/badge/SQLite-3.9+-blue.svg)](https://sqlite.org/)
+[![OpenAPI](https://img.shields.io/badge/OpenAPI-3.0.3-orange.svg)](https://swagger.io/specification/)
+[![JWT](https://img.shields.io/badge/JWT-Authentication-red.svg)](https://jwt.io/)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-## 🚀 Quick Start
+> **Production-Ready REST API Template** - Complete starter kit with authentication, security, monitoring, and enterprise-grade architecture for building scalable APIs with Dart/Shelf.
 
-### Local Development (SQLite - Default)
-```bash
-cd mock_server
-dart pub get
-dart run
-```
+## 📋 Table of Contents
 
-### Production with Supabase
-```bash
-export DATABASE_PROVIDER=supabase
-export SUPABASE_URL=https://your-project.supabase.co
-export SUPABASE_ANON_KEY=your-anon-key
-export SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
-export ENVIRONMENT=production
+- [✨ Features](#-features)
+- [🏗️ Architecture](#️-architecture)
+- [🚀 Quick Start](#-quick-start)
+- [📚 API Documentation](#-api-documentation)
+- [🔐 Authentication](#-authentication)
+- [🛡️ Security](#️-security)
+- [⚙️ Configuration](#️-configuration)
+- [🚀 Deployment](#-deployment)
+- [🛠️ Development](#️-development)
+- [📊 Monitoring](#-monitoring)
+- [🤝 Contributing](#-contributing)
+- [👤 Author](#-author)
+- [📄 License](#-license)
 
-dart run
-```
+---
 
-### Production with Firebase
-```bash
-export DATABASE_PROVIDER=firebase
-export FIREBASE_PROJECT_ID=your-project-id
-export FIREBASE_API_KEY=your-api-key
-export FIREBASE_SERVICE_ACCOUNT_PATH=/path/to/service-account.json
-export ENVIRONMENT=production
+## ✨ Features
 
-dart run
-```
+### 🔐 **Authentication & Security**
+- ✅ **JWT Authentication** with refresh tokens
+- ✅ **Rate Limiting** (100 req/15min per IP)
+- ✅ **Input Sanitization** (XSS/SQL injection prevention)
+- ✅ **Security Headers** (HSTS, CSP, XSS protection)
+- ✅ **CSRF Protection** for state-changing operations
+- ✅ **OWASP Top 10 Compliant**
 
-## 🗄️ Database Providers
+### 🌐 **API Features**
+- ✅ **RESTful Endpoints** with proper HTTP methods
+- ✅ **OpenAPI 3.0.3** specification (400+ lines)
+- ✅ **Swagger UI** interactive documentation
+- ✅ **Structured Error Responses**
+- ✅ **Request/Response Validation**
+- ✅ **CORS Support**
 
-### SQLite (Local Development)
-- **Best for**: Development, testing, prototyping
-- **Configuration**: Automatic (no setup required)
-- **Features**: ACID transactions, fast queries, file-based
+### 💾 **Database & Storage**
+- ✅ **SQLite Database** with Repository pattern
+- ✅ **Type-Safe Queries** with prepared statements
+- ✅ **Migration Support** ready
+- ✅ **Connection Pooling**
+- ✅ **Data Validation**
 
-### Supabase (PostgreSQL Cloud)
-- **Best for**: Production, real-time features, managed database
-- **Features**: Real-time subscriptions, built-in authentication, managed PostgreSQL
-- **Requirements**: Supabase project and API keys
+### 📊 **Monitoring & Observability**
+- ✅ **Health Checks** (/v1/health)
+- ✅ **Request Logging** with timestamps
+- ✅ **Error Tracking** with stack traces
+- ✅ **Rate Limiting Metrics**
+- ✅ **Performance Monitoring**
 
-### Firebase (Realtime Database)
-- **Best for**: Mobile-first apps, real-time features, Google ecosystem
-- **Features**: Real-time synchronization, offline support, Google services integration
-- **Requirements**: Firebase project and service account
-
-## 🔧 Environment Configuration
-
-Create a `.env` file in the project root:
-
-```env
-# Server Configuration
-PORT=8080
-ENVIRONMENT=production
-HOST=0.0.0.0
-
-# Database Configuration
-DATABASE_PROVIDER=sqlite
-DATABASE_FILE=mock_server.db
-
-# Supabase Configuration (if using Supabase)
-SUPABASE_URL=https://your-project.supabase.co
-SUPABASE_ANON_KEY=your-anon-key
-SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
-
-# Firebase Configuration (if using Firebase)
-FIREBASE_PROJECT_ID=your-project-id
-FIREBASE_API_KEY=your-api-key
-FIREBASE_SERVICE_ACCOUNT_PATH=/path/to/service-account.json
-
-# Logging & Monitoring
-LOG_LEVEL=info
-LOG_FORMAT=json
-ENABLE_METRICS=true
-METRICS_PORT=9090
-
-# Security
-CORS_ORIGINS=*
-ENABLE_RATE_LIMITING=true
-RATE_LIMIT_REQUESTS_PER_MINUTE=60
-
-# AI Features
-ENABLE_AI_FEATURES=true
-EMBEDDING_MODEL_VERSION=demo-v1.0
-RECOMMENDATION_ALGORITHM=cosine_similarity
-```
-
-## 📊 API Endpoints
-
-### Authentication (`/v1/auth`)
-```
-POST /auth/login              # User login with JWT tokens
-POST /auth/register           # User registration
-POST /auth/logout             # Secure logout
-POST /auth/refresh            # Token refresh
-POST /auth/forgot-password    # Password reset request
-POST /auth/reset-password     # Password reset
-POST /auth/verify-email       # Email verification
-```
-
-### User Management (`/v1/user`)
-```
-GET  /user/profile            # Get user profile
-PUT  /user/profile            # Update user profile
-PUT  /user/change-password    # Change password
-```
-
-### AI Features (`/v1/ai`)
-```
-POST /ai/search/semantic      # Semantic search with embeddings
-POST /ai/recommendations      # Personalized recommendations
-POST /ai/embeddings/generate  # Generate content embeddings
-POST /ai/interactions/track   # Track user interactions
-POST /ai/analytics           # AI performance analytics
-```
-
-### Health & Monitoring (`/v1/health`)
-```
-GET  /health                  # Comprehensive health check
-GET  /version                 # Version information
-GET  /metrics                 # Prometheus metrics
-GET  /health/database         # Database health check
-```
+---
 
 ## 🏗️ Architecture
 
-### Feature-First Architecture
 ```
-/lib/
-├── core/
-│   ├── database/             # Database layer with provider abstraction
-│   │   ├── repositories/     # Data access layer
-│   │   └── config/          # Database configuration
-│   └── utils/               # Shared utilities
-├── features/                 # Feature modules
-│   ├── auth/                # Authentication feature
-│   │   ├── handlers/        # HTTP handlers
-│   │   ├── services/        # Business logic
-│   │   ├── models/          # Feature models
-│   │   └── routes/          # Feature routes
-│   ├── user/                # User management
-│   ├── ai/                  # AI features
-│   └── health/              # Health checks
-└── server.dart              # Main server configuration
+mock_server/
+├── 📁 lib/
+│   ├── 🏗️ core/                    # Shared components
+│   │   ├── ⚙️ config/              # Configuration management
+│   │   ├── 💾 database/            # Data layer
+│   │   │   ├── 🏗️ repositories/    # Repository pattern
+│   │   │   └── ⚙️ config/          # DB configuration
+│   │   ├── 🛡️ middleware/          # Security middlewares
+│   │   ├── 📋 models/             # Data models
+│   │   └── 🛠️ utils/              # Utilities
+│   └── 📁 features/                # Feature modules
+│       ├── 🔐 auth/                # Authentication
+│       ├── 👤 user/                # User management
+│       ├── 🤖 ai/                  # AI features
+│       └── 💊 health/              # Health checks
+├── 📁 bin/                         # Executables
+├── 📁 swagger-ui/                  # API documentation
+├── 📄 openapi.yaml                 # API specification
+├── 📄 pubspec.yaml                 # Dependencies
+└── 📄 README.md                    # Documentation
 ```
 
-### Service Layer Pattern
-- **Handlers**: HTTP request/response handling
-- **Services**: Business logic and validation
-- **Repositories**: Data access abstraction
-- **Database Providers**: Pluggable database implementations
+---
 
-## 🐳 Docker Deployment
+## 🚀 Quick Start
 
-### Dockerfile
+### 📦 Prerequisites
+
+- **Dart SDK**: `>=3.0.0 <4.0.0`
+- **SQLite3**: For database operations
+
+### 🛠️ Installation
+
+1. **Clone the repository:**
+   ```bash
+   git clone <repository-url>
+   cd mock_server
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   dart pub get
+   ```
+
+3. **Start the server:**
+   ```bash
+   dart run bin/main.dart
+   ```
+
+### 🎯 First API Call
+
+```bash
+# Health check
+curl http://localhost:8080/v1/health
+
+# Response
+{
+  "status": "healthy",
+  "timestamp": "2024-01-01T00:00:00.000Z",
+  "version": "1.0.0"
+}
+```
+
+---
+
+## 📚 API Documentation
+
+### 🌐 Interactive Documentation
+
+Access the **Swagger UI** at: `http://localhost:8080/`
+
+### 📋 API Endpoints Overview
+
+| Category | Endpoint | Method | Protected | Description |
+|----------|----------|--------|-----------|-------------|
+| **Health** | `/v1/health` | GET | ❌ | Basic health check |
+| | `/v1/health/database` | GET | ❌ | Database connectivity |
+| **Auth** | `/v1/auth/login` | POST | ❌ | User authentication |
+| | `/v1/auth/register` | POST | ❌ | User registration |
+| | `/v1/auth/logout` | POST | ❌ | Secure logout |
+| | `/v1/auth/refresh` | POST | ❌ | Refresh access token |
+| | `/v1/auth/forgot-password` | POST | ❌ | Password recovery |
+| | `/v1/auth/reset-password` | POST | ❌ | Password reset |
+| | `/v1/auth/send-email-verification` | POST | ❌ | Send verification email |
+| | `/v1/auth/verify-email/{token}` | POST | ❌ | Verify email |
+| **User** | `/v1/user/profile` | GET | ✅ | Get user profile |
+| | `/v1/user/profile` | PUT | ✅ | Update profile |
+| | `/v1/user/change-password` | PUT | ✅ | Change password |
+| **AI** | `/v1/ai/search/semantic` | POST | ✅ | Semantic search |
+| | `/v1/ai/recommendations` | POST | ✅ | Get recommendations |
+| | `/v1/ai/embeddings/generate` | POST | ✅ | Generate embeddings |
+| | `/v1/ai/interactions/track` | POST | ✅ | Track interactions |
+| | `/v1/ai/analytics` | POST | ✅ | AI analytics |
+
+### 📖 OpenAPI Specification
+
+The complete API specification is available at: `http://localhost:8080/openapi.yaml`
+
+---
+
+## 🔐 Authentication
+
+### JWT Token Flow
+
+1. **Register/Login** to get access token
+2. **Include token** in Authorization header
+3. **Access protected endpoints**
+4. **Refresh token** when expired
+
+### 🔑 Authentication Examples
+
+#### **Register New User**
+```bash
+curl -X POST http://localhost:8080/v1/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "user@example.com",
+    "password": "securepassword123",
+    "firstName": "John",
+    "lastName": "Doe"
+  }'
+```
+
+#### **Login**
+```bash
+curl -X POST http://localhost:8080/v1/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "user@example.com",
+    "password": "securepassword123"
+  }'
+```
+
+**Response:**
+```json
+{
+  "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "user": {
+    "id": "user_123",
+    "email": "user@example.com",
+    "firstName": "John",
+    "lastName": "Doe"
+  }
+}
+```
+
+#### **Access Protected Endpoint**
+```bash
+curl -X GET http://localhost:8080/v1/user/profile \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
+```
+
+---
+
+## 🛡️ Security
+
+### 🔒 Security Features
+
+#### **Rate Limiting**
+- **Limit**: 100 requests per 15 minutes per IP
+- **Headers**: `X-RateLimit-*` for monitoring
+- **Protection**: DoS attack prevention
+
+#### **Input Validation & Sanitization**
+- **XSS Prevention**: HTML tag removal
+- **SQL Injection**: Pattern detection
+- **Request Size**: 1MB maximum payload
+- **JSON Validation**: Required format enforcement
+
+#### **Security Headers**
+```http
+X-Frame-Options: DENY
+Content-Security-Policy: default-src 'self'; ...
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=31536000; ...
+```
+
+#### **CSRF Protection**
+- **Token-based**: Automatic token generation
+- **State-changing**: POST/PUT/PATCH/DELETE protection
+- **API Bypass**: JWT endpoints exempt
+
+### 🔍 Security Audit
+
+#### **OWASP Top 10 Compliance**
+- ✅ **Injection**: Input sanitization
+- ✅ **Broken Authentication**: JWT validation
+- ✅ **Sensitive Data Exposure**: Security headers
+- ✅ **XML External Entities**: JSON-only
+- ✅ **Broken Access Control**: Route protection
+- ✅ **Security Misconfiguration**: Config validation
+- ✅ **Cross-Site Scripting**: XSS protection
+- ✅ **Insecure Deserialization**: Input validation
+- ✅ **Vulnerable Components**: Controlled dependencies
+- ✅ **Insufficient Logging**: Request logging
+
+---
+
+## ⚙️ Configuration
+
+### 🌍 Environment Variables
+
+```bash
+# Server Configuration
+PORT=8080                          # Server port (default: 8080)
+HOST=0.0.0.0                       # Server host (default: 0.0.0.0)
+ENVIRONMENT=production             # Environment (development/production)
+
+# Database Configuration
+DATABASE_TYPE=sqlite               # Database type
+DATABASE_PATH=data/prod.db         # SQLite file path
+
+# Security Configuration
+JWT_SECRET=your-super-secret-key   # JWT signing secret
+CORS_ENABLED=true                  # Enable CORS
+RATE_LIMIT_ENABLED=true            # Enable rate limiting
+MAX_BODY_SIZE=1048576              # Max request body size (1MB)
+
+# Feature Flags
+SWAGGER_UI_ENABLED=true           # Enable Swagger UI
+API_DOCS_ENABLED=true             # Enable API docs
+HEALTH_ENDPOINTS_ENABLED=true     # Enable health checks
+```
+
+### 📄 Configuration File
+
+Create `config/production.yaml`:
+
+```yaml
+server:
+  port: 8080
+  host: "0.0.0.0"
+  timeout: 30
+
+database:
+  type: "sqlite"
+  path: "data/production.db"
+  max_connections: 10
+
+security:
+  jwt_secret: "your-production-secret"
+  rate_limiting:
+    enabled: true
+    max_requests: 100
+    window_minutes: 15
+  cors:
+    enabled: true
+    origins: ["https://yourdomain.com"]
+  input_validation:
+    enabled: true
+    max_body_size: 1048576
+
+features:
+  swagger_ui: true
+  api_docs: true
+  health_endpoints: true
+```
+
+---
+
+## 🚀 Deployment
+
+### 🐳 Docker Deployment
+
+#### **Dockerfile**
 ```dockerfile
 FROM dart:stable AS build
 
@@ -170,19 +342,15 @@ COPY . .
 RUN dart pub get --offline
 RUN dart compile exe bin/main.dart -o bin/server
 
-FROM debian:stable-slim
-RUN apt-get update && apt-get install -y ca-certificates && rm -rf /var/lib/apt/lists/*
-
-COPY --from=build /app/bin/server /app/bin/
-COPY --from=build /app/data/ /app/data/
-COPY --from=build /app/.env* /app/
-
-WORKDIR /app
+FROM scratch
+COPY --from=build /app/bin/server /server
+COPY --from=build /runtime/ /
 EXPOSE 8080
-CMD ["/app/bin/server"]
+
+CMD ["/server"]
 ```
 
-### Docker Compose (Production)
+#### **Docker Compose**
 ```yaml
 version: '3.8'
 services:
@@ -190,312 +358,425 @@ services:
     build: .
     ports:
       - "8080:8080"
-      - "9090:9090"  # Metrics port
     environment:
       - ENVIRONMENT=production
-      - DATABASE_PROVIDER=supabase
-      - SUPABASE_URL=${SUPABASE_URL}
-      - SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}
-      - ENABLE_METRICS=true
-    env_file:
-      - .env
+      - JWT_SECRET=your-production-secret
+      - DATABASE_PATH=/data/production.db
+    volumes:
+      - ./data:/data
     restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/v1/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
 ```
 
-## 🚀 Production Deployment Options
-
-### 1. Systemd Service
-```ini
-[Unit]
-Description=Mock Server
-After=network.target
-
-[Service]
-Type=simple
-User=mock-server
-WorkingDirectory=/opt/mock-server
-ExecStart=/usr/local/bin/dart /opt/mock-server/bin/main.dart
-EnvironmentFile=/opt/mock-server/.env
-Restart=always
-RestartSec=10
-
-[Install]
-WantedBy=multi-user.target
-```
-
-### 2. PM2 (Node.js Process Manager)
+#### **Deploy Commands**
 ```bash
-npm install -g pm2
-pm2 start ecosystem.config.js
+# Build and run
+docker-compose up --build -d
+
+# View logs
+docker-compose logs -f mock-server
+
+# Scale the service
+docker-compose up -d --scale mock-server=3
 ```
 
-### 3. Kubernetes Deployment
-```yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: mock-server
-spec:
-  replicas: 3
-  selector:
-    matchLabels:
-      app: mock-server
-  template:
-    metadata:
-      labels:
-        app: mock-server
-    spec:
-      containers:
-      - name: mock-server
-        image: your-registry/mock-server:latest
-        ports:
-        - containerPort: 8080
-        envFrom:
-        - configMapRef:
-            name: mock-server-config
-        - secretRef:
-            name: mock-server-secrets
-        livenessProbe:
-          httpGet:
-            path: /v1/health
-            port: 8080
-          initialDelaySeconds: 30
-          periodSeconds: 10
-        readinessProbe:
-          httpGet:
-            path: /v1/health
-            port: 8080
-```
+### ☁️ Cloud Deployment
 
-## 📈 Monitoring & Observability
-
-### Health Checks
+#### **Google Cloud Run**
 ```bash
-# Overall health
-curl http://localhost:8080/v1/health
+# Build container
+gcloud builds submit --tag gcr.io/PROJECT-ID/mock-server
 
-# Database health
-curl http://localhost:8080/v1/health/database
-
-# Version info
-curl http://localhost:8080/v1/version
+# Deploy to Cloud Run
+gcloud run deploy mock-server \
+  --image gcr.io/PROJECT-ID/mock-server \
+  --platform managed \
+  --port 8080 \
+  --allow-unauthenticated \
+  --set-env-vars="ENVIRONMENT=production,JWT_SECRET=your-secret"
 ```
 
-### Metrics (Prometheus)
-When `ENABLE_METRICS=true`:
-- **Endpoint**: `http://localhost:9090/metrics`
-- **Metrics**: Request count, latency, error rates, database connections
-- **Integration**: Ready for Prometheus scraping
-
-### Logging
-- **Structured JSON logging** for production
-- **Configurable log levels** (debug, info, warn, error)
-- **Request/response logging** with correlation IDs
-- **Error tracking** with stack traces
-
-## 🔒 Security Features
-
-### Authentication & Authorization
-- JWT token-based authentication
-- Refresh token rotation
-- Secure password hashing
-- Role-based access control (RBAC)
-
-### API Security
-- CORS configuration
-- Rate limiting per IP/client
-- Input validation and sanitization
-- SQL injection prevention
-- XSS protection
-
-### Infrastructure Security
-- Non-root user execution
-- Minimal Docker images
-- Environment-based secrets
-- Network segmentation
-- Regular security updates
-
-## 🔄 Database Switching Guide
-
-### Step 1: Choose Your Database Provider
-
-**For Development:**
+#### **AWS Fargate**
 ```bash
-export DATABASE_PROVIDER=sqlite
-# No additional configuration needed
+# Using AWS CLI
+aws ecs create-service \
+  --cluster mock-server-cluster \
+  --service-name mock-server \
+  --task-definition mock-server-task \
+  --desired-count 2 \
+  --launch-type FARGATE
 ```
 
-**For Production (Supabase):**
+#### **Heroku**
 ```bash
-export DATABASE_PROVIDER=supabase
-export SUPABASE_URL=https://your-project.supabase.co
-export SUPABASE_ANON_KEY=your-anon-key
-export SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+# Create Procfile
+echo "web: dart run bin/main.dart" > Procfile
+
+# Deploy
+git push heroku main
 ```
 
-**For Production (Firebase):**
-```bash
-export DATABASE_PROVIDER=firebase
-export FIREBASE_PROJECT_ID=your-project-id
-export FIREBASE_API_KEY=your-api-key
-export FIREBASE_SERVICE_ACCOUNT_PATH=/path/to/service-account.json
-```
+### 🔧 Production Checklist
 
-### Step 2: Update Environment
-```bash
-# Edit your .env file or set environment variables
-cp .env.example .env
-# Edit .env with your database configuration
-```
-
-### Step 3: Migrate Data (if needed)
-```bash
-# Export from current database
-dart run bin/export_data.dart
-
-# Switch database provider
-export DATABASE_PROVIDER=new_provider
-# ... configure new provider
-
-# Import to new database
-dart run bin/import_data.dart
-```
-
-### Step 4: Test Connection
-```bash
-# Test database connection
-curl http://localhost:8080/v1/health/database
-
-# Test full application
-curl http://localhost:8080/v1/health
-```
-
-## 🧪 Testing
-
-### Unit Tests
-```bash
-dart test
-```
-
-### Integration Tests
-```bash
-# With SQLite (fast)
-export DATABASE_PROVIDER=sqlite
-dart test --tags=integration
-
-# With Supabase (requires network)
-export DATABASE_PROVIDER=supabase
-dart test --tags=integration
-```
-
-### Load Testing
-```bash
-# Install hey (Go) or siege
-hey -n 1000 -c 10 http://localhost:8080/v1/health
-
-# Or use artillery
-npm install -g artillery
-artillery quick --count 10 --num 50 http://localhost:8080/v1/health
-```
-
-## 📊 Performance Optimization
-
-### Database Optimization
-- **Connection Pooling**: Efficient connection management
-- **Query Optimization**: Indexed queries and prepared statements
-- **Caching**: Redis integration for frequently accessed data
-- **Read Replicas**: Database read/write splitting
-
-### Server Optimization
-- **Async/Await**: Non-blocking I/O operations
-- **Middleware Pipeline**: Efficient request processing
-- **Memory Management**: Garbage collection optimization
-- **Concurrent Processing**: Multi-threaded request handling
-
-### Caching Strategies
-- **API Response Caching**: Cache frequently requested data
-- **Database Query Caching**: Cache expensive queries
-- **CDN Integration**: Static asset caching
-
-## 🚨 Troubleshooting
-
-### Database Connection Issues
-```bash
-# Check database configuration
-echo $DATABASE_PROVIDER
-echo $SUPABASE_URL
-
-# Test database connectivity
-dart run bin/test_db_connection.dart
-
-# Check database logs
-tail -f logs/database.log
-```
-
-### Memory Issues
-```bash
-# Monitor memory usage
-ps aux | grep dart
-
-# Adjust Dart VM options
-export DART_VM_OPTIONS="--old_gen_heap_size=1g --max_old_space_size=2g"
-```
-
-### Performance Issues
-```bash
-# Enable metrics
-export ENABLE_METRICS=true
-
-# Check metrics endpoint
-curl http://localhost:9090/metrics
-
-# Profile application
-dart run --observe bin/main.dart
-```
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-### Development Setup
-```bash
-# Clone repository
-git clone https://github.com/your-org/mock-server.git
-cd mock-server
-
-# Install dependencies
-dart pub get
-
-# Setup development database
-export DATABASE_PROVIDER=sqlite
-export ENVIRONMENT=development
-
-# Run tests
-dart test
-
-# Start development server
-dart run
-```
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🆘 Support
-
-- **Documentation**: See [docs/](docs/) directory
-- **Issues**: [GitHub Issues](https://github.com/your-org/mock-server/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/your-org/mock-server/discussions)
+- ✅ **Environment Variables** configured
+- ✅ **Database** initialized and migrated
+- ✅ **SSL/TLS** certificates configured
+- ✅ **Firewall** rules updated
+- ✅ **Monitoring** alerts configured
+- ✅ **Backup** strategy implemented
+- ✅ **Load Balancing** configured
+- ✅ **Health Checks** enabled
 
 ---
 
-**🎉 Your mock server is now production-ready with multi-database support!**
+## 🛠️ Development
+
+### 🚀 Development Setup
+
+1. **Clone and setup:**
+   ```bash
+   git clone <repository-url>
+   cd mock_server
+   dart pub get
+   ```
+
+2. **Development configuration:**
+   ```bash
+   export ENVIRONMENT=development
+   export DATABASE_PATH=data/dev.db
+   ```
+
+3. **Run with hot reload:**
+   ```bash
+   dart run bin/main.dart
+   ```
+
+### 🧪 Testing
+
+#### **Run Tests**
+```bash
+# Run all tests
+dart test
+
+# Run with coverage
+dart test --coverage=coverage
+dart pub global run coverage:format_coverage \
+  --lcov --in=coverage --out=coverage/lcov.info
+```
+
+#### **API Testing with cURL**
+```bash
+# Health check
+curl http://localhost:8080/v1/health
+
+# Authentication flow
+curl -X POST http://localhost:8080/v1/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"test@example.com","password":"test123"}'
+
+# Protected endpoint
+curl -X GET http://localhost:8080/v1/user/profile \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+
+### 🔧 Code Quality
+
+#### **Linting**
+```bash
+# Run linter
+dart analyze
+
+# Fix formatting
+dart format .
+```
+
+#### **Pre-commit Hooks**
+```bash
+# Install pre-commit hooks
+dart pub global activate pre_commit
+pre_commit install
+
+# Run hooks
+pre_commit run --all-files
+```
+
+### 📁 Project Structure
+
+```
+lib/
+├── core/
+│   ├── config/
+│   │   └── app_config.dart          # Configuration management
+│   ├── database/
+│   │   ├── config/
+│   │   │   └── database_config.dart # Database setup
+│   │   └── repositories/
+│   │       ├── base_repository.dart # Base repository
+│   │       ├── user_repository.dart # User data
+│   │       └── ...                  # Other repositories
+│   ├── middleware/
+│   │   ├── auth_middleware.dart     # JWT authentication
+│   │   ├── rate_limiting_middleware.dart # Rate limiting
+│   │   ├── input_sanitization_middleware.dart # XSS protection
+│   │   ├── security_headers_middleware.dart # Security headers
+│   │   └── ...                      # Other middlewares
+│   └── models/
+│       └── api_response.dart        # Response models
+├── features/
+│   ├── auth/
+│   │   ├── routes/
+│   │   │   └── auth_routes.dart     # Auth endpoints
+│   │   ├── handlers/
+│   │   │   └── auth_handler.dart    # Auth handlers
+│   │   ├── services/
+│   │   │   └── auth_service.dart    # Auth business logic
+│   │   └── models/
+│   │       └── auth_models.dart     # Auth models
+│   ├── user/
+│   │   └── ...                      # User management
+│   ├── ai/
+│   │   └── ...                      # AI features
+│   └── health/
+│       └── ...                      # Health checks
+└── server.dart                      # Main server file
+```
+
+---
+
+## 📊 Monitoring
+
+### 💊 Health Checks
+
+#### **Endpoints**
+```bash
+# Basic health
+GET /v1/health
+
+# Database health
+GET /v1/health/database
+
+# Detailed health
+GET /v1/health/detailed
+```
+
+#### **Health Response**
+```json
+{
+  "status": "healthy",
+  "timestamp": "2024-01-01T00:00:00.000Z",
+  "version": "1.0.0",
+  "database": {
+    "status": "connected",
+    "response_time_ms": 12
+  },
+  "system": {
+    "memory_usage": "45%",
+    "cpu_usage": "23%",
+    "uptime": "2h 30m"
+  }
+}
+```
+
+### 📈 Metrics
+
+#### **Rate Limiting Stats**
+```bash
+# Get rate limiting statistics
+GET /v1/health/rate-limit-stats
+
+# Response
+{
+  "total_clients": 15,
+  "max_requests": 100,
+  "window_seconds": 900,
+  "clients": [
+    {
+      "client_id": "192.168.1.100",
+      "requests": 23,
+      "remaining_requests": 77,
+      "reset_time": "2024-01-01T00:15:00.000Z"
+    }
+  ]
+}
+```
+
+### 📝 Logging
+
+#### **Log Levels**
+- **DEBUG**: Detailed development information
+- **INFO**: General operational messages
+- **WARN**: Warning conditions
+- **ERROR**: Error conditions
+- **FATAL**: Critical errors
+
+#### **Log Format**
+```
+2024-01-01T00:00:00.000Z INFO  [RequestHandler] GET /v1/health 200 12ms
+2024-01-01T00:01:15.000Z WARN  [RateLimiter] Rate limit exceeded for 192.168.1.100
+2024-01-01T00:02:30.000Z ERROR [AuthHandler] Invalid JWT token provided
+```
+
+---
+
+## 🤝 Contributing
+
+### 🚀 How to Contribute
+
+1. **Fork the repository**
+2. **Create a feature branch**
+   ```bash
+   git checkout -b feature/amazing-feature
+   ```
+3. **Make your changes**
+4. **Add tests for new features**
+5. **Ensure all tests pass**
+   ```bash
+   dart test
+   dart analyze
+   ```
+6. **Update documentation**
+7. **Commit your changes**
+   ```bash
+   git commit -m "✨ Add amazing feature"
+   ```
+8. **Push to the branch**
+   ```bash
+   git push origin feature/amazing-feature
+   ```
+9. **Create a Pull Request**
+
+### 📋 Development Guidelines
+
+#### **Code Style**
+- Follow [Dart Style Guide](https://dart.dev/guides/language/effective-dart/style)
+- Use meaningful variable and function names
+- Add documentation comments for public APIs
+- Keep functions small and focused
+
+#### **Testing**
+- Write unit tests for new features
+- Write integration tests for API endpoints
+- Maintain >80% code coverage
+- Test both success and error scenarios
+
+#### **Security**
+- Never commit secrets or credentials
+- Use environment variables for sensitive data
+- Follow OWASP security guidelines
+- Validate all inputs
+
+#### **Git Workflow**
+- Use descriptive commit messages
+- Keep commits focused and atomic
+- Use feature branches for development
+- Rebase before merging to main
+
+### 🐛 Reporting Issues
+
+1. **Check existing issues** before creating new ones
+2. **Use issue templates** when available
+3. **Provide detailed information**:
+   - Steps to reproduce
+   - Expected vs actual behavior
+   - Environment details
+   - Error logs
+
+---
+
+## 👤 Author
+
+**Cristiano Aredes**
+
+[![Website](https://img.shields.io/badge/Website-aredes.me-blue)](https://aredes.me/)
+[![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-orange.svg)](https://buymeacoffee.com/cristianoaredes)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-cristianoaredes-blue)](https://linkedin.com/in/cristianoaredes)
+[![Twitter](https://img.shields.io/badge/Twitter-@cristianoaredes-blue)](https://twitter.com/cristianoaredes)
+
+Full-stack developer passionate about Dart, Flutter, and building scalable backend systems. Creator of production-ready templates and tools for modern development.
+
+### 🎯 Other Projects by the Same Author
+
+#### **MCP Mobile Server** 
+[![NPM](https://img.shields.io/npm/v/@cristianoaredes/mcp-mobile-server.svg)](https://www.npmjs.com/package/@cristianoaredes/mcp-mobile-server)
+[![Downloads](https://img.shields.io/npm/dm/@cristianoaredes/mcp-mobile-server.svg)](https://www.npmjs.com/package/@cristianoaredes/mcp-mobile-server)
+
+> **Mobile Development Server with MCP (Model Context Protocol)** - Complete development server for mobile apps with hot reload, device management, and debugging tools.
+
+```bash
+npm install -g @cristianoaredes/mcp-mobile-server
+```
+
+**Key Features:**
+- 🔧 **Hot Reload** for Flutter/React Native apps
+- 📱 **Device Management** (iOS/Android simulators)
+- 🐛 **Debug Tools** with real-time logging
+- 📊 **Performance Monitoring** for mobile apps
+- 🚀 **Production Builds** with optimization
+
+[📖 View on NPM](https://www.npmjs.com/package/@cristianoaredes/mcp-mobile-server) • 
+[📚 Documentation](https://github.com/cristianoaredes/mcp-mobile-server)
+
+### 💼 Professional Services
+
+Available for consulting, custom development, and training:
+
+- **Backend Architecture** - Design and implementation
+- **API Development** - REST, GraphQL, WebSocket
+- **Mobile Development** - Flutter, React Native
+- **DevOps & Deployment** - Cloud platforms, CI/CD
+- **Code Review & Mentoring** - Best practices, architecture
+
+[📧 Contact](mailto:contact@cristianoaredes.dev) • 
+[💼 LinkedIn](https://linkedin.com/in/cristianoaredes)
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+
+```
+MIT License
+
+Copyright (c) 2024 Cristiano Aredes
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+---
+
+## 🙏 Acknowledgments
+
+- **Shelf Framework**: For the excellent HTTP server foundation
+- **Dart Team**: For the amazing Dart language and ecosystem
+- **OpenAPI Initiative**: For the API specification standards
+- **OWASP**: For security best practices and guidelines
+- **Community**: For contributions, feedback, and support
+
+---
+
+<div align="center">
+
+**🚀 Mock Server - Production-Ready REST API**
+
+*Built with ❤️ using Dart and Shelf*
+
+[![Star on GitHub](https://img.shields.io/github/stars/your-org/mock-server?style=social)](https://github.com/your-org/mock-server)
+[![Follow on Twitter](https://img.shields.io/twitter/follow/mockserver?style=social)](https://twitter.com/mockserver)
+
+</div>
