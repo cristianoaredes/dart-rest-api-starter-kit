@@ -14,8 +14,8 @@ void main(List<String> args) async {
 
   // In-memory state
   Map<String, dynamic> currentUser = _demoUser();
-  String accessToken = 'mock_access_token';
-  String refreshToken = 'mock_refresh_token';
+  String accessToken = 'demo_access_token';
+  String refreshToken = 'demo_refresh_token';
 
   // Health/version
   app.get('/v1/health', _json((Request req) => {'status': 'ok'}));
@@ -112,7 +112,7 @@ void main(List<String> args) async {
       .addHandler(app);
 
   final server = await serve(handler, ip, port);
-  print('Mock server listening on http://${server.address.host}:${server.port}');
+  print('Demo API server listening on http://${server.address.host}:${server.port}');
 }
 
 Map<String, dynamic> _demoUser({String email = 'demo@example.com', String name = 'Demo User'}) {

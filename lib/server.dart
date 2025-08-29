@@ -192,7 +192,7 @@ class ApiServer {
 }
 
 /// Convenience function to start the server
-Future<HttpServer> startMockServer({
+Future<HttpServer> startServer({
   int port = 8080,
   InternetAddress? ip,
 }) async {

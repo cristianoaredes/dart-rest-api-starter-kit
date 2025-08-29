@@ -13,7 +13,7 @@ class HealthHandler {
   /// Version endpoint
   static Handler version() {
     return HandlerUtils.jsonHandler((Request request) {
-      return {'version': '1.0.0', 'environment': 'mock'};
+      return {'version': '1.0.0', 'environment': 'development'};
     });
   }
 }
