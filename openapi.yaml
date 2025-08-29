@@ -1,0 +1,797 @@
+openapi: 3.0.3
+info:
+  title: Mock Server API - Cidadão App
+  version: 1.0.0
+  description: |
+    API documentation for the Cidadão App Mock Server.
+    A production-ready mock server with multi-database support, comprehensive monitoring, and enterprise-grade architecture.
+
+    ## Features:
+    - Authentication & Authorization
+    - User Management
+    - AI-powered recommendations
+    - Content embeddings
+    - Health monitoring
+
+  contact:
+    name: API Support
+    email: support@cidadao-app.com
+
+servers:
+  - url: http://localhost:8080
+    description: Development server
+  - url: https://api.cidadao-app.com
+    description: Production server
+
+security:
+  - BearerAuth: []
+
+paths:
+  # Health & Monitoring
+  /v1/health:
+    get:
+      summary: Health check
+      description: Check the health status of the API server
+      tags: [Health]
+      responses:
+        '200':
+          description: Server is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "healthy"
+                  timestamp:
+                    type: string
+                    format: date-time
+                  uptime:
+                    type: number
+                    description: Server uptime in seconds
+
+  /v1/health/database:
+    get:
+      summary: Database health check
+      description: Check database connectivity and status
+      tags: [Health]
+      responses:
+        '200':
+          description: Database is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "healthy"
+                  database:
+                    type: string
+                    example: "sqlite"
+                  connections:
+                    type: integer
+
+  # Authentication
+  /v1/auth/login:
+    post:
+      summary: User login
+      description: Authenticate user with email and password
+      tags: [Authentication]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: "user@example.com"
+                password:
+                  type: string
+                  format: password
+                  minLength: 6
+                  example: "password123"
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '401':
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /v1/auth/register:
+    post:
+      summary: User registration
+      description: Register a new user account
+      tags: [Authentication]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - name
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: "user@example.com"
+                name:
+                  type: string
+                  minLength: 2
+                  example: "João Silva"
+                password:
+                  type: string
+                  format: password
+                  minLength: 6
+                  example: "password123"
+                cpf:
+                  type: string
+                  description: Brazilian CPF number
+                  example: "12345678901"
+                phone:
+                  type: string
+                  description: Phone number
+                  example: "+5511999999999"
+      responses:
+        '200':
+          description: Registration successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '409':
+          description: User already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /v1/auth/logout:
+    post:
+      summary: User logout
+      description: Logout user by invalidating refresh token
+      tags: [Authentication]
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - refresh_token
+              properties:
+                refresh_token:
+                  type: string
+                  example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+      responses:
+        '200':
+          description: Logout successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Logged out successfully"
+
+  /v1/auth/refresh:
+    post:
+      summary: Refresh access token
+      description: Get new access token using refresh token
+      tags: [Authentication]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - refresh_token
+              properties:
+                refresh_token:
+                  type: string
+                  example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+      responses:
+        '200':
+          description: Token refreshed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponse'
+
+  /v1/auth/forgot-password:
+    post:
+      summary: Request password reset
+      description: Send password reset email to user
+      tags: [Authentication]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: "user@example.com"
+      responses:
+        '200':
+          description: Password reset email sent
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Password reset email sent"
+
+  /v1/auth/reset-password:
+    post:
+      summary: Reset password
+      description: Reset user password using reset token
+      tags: [Authentication]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - token
+                - new_password
+              properties:
+                token:
+                  type: string
+                  example: "reset_token_here"
+                new_password:
+                  type: string
+                  format: password
+                  minLength: 6
+                  example: "newpassword123"
+      responses:
+        '200':
+          description: Password reset successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Password reset successfully"
+
+  # User Management
+  /v1/user/profile:
+    get:
+      summary: Get user profile
+      description: Get current user's profile information
+      tags: [User Management]
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: User profile retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    $ref: '#/components/schemas/User'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    put:
+      summary: Update user profile
+      description: Update current user's profile information
+      tags: [User Management]
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "João Silva Atualizado"
+                email:
+                  type: string
+                  format: email
+                  example: "joao.novo@example.com"
+                phone:
+                  type: string
+                  example: "+5511988888888"
+      responses:
+        '200':
+          description: Profile updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    $ref: '#/components/schemas/User'
+
+  /v1/user/change-password:
+    post:
+      summary: Change password
+      description: Change current user's password
+      tags: [User Management]
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - current_password
+                - new_password
+              properties:
+                current_password:
+                  type: string
+                  format: password
+                  example: "oldpassword123"
+                new_password:
+                  type: string
+                  format: password
+                  minLength: 6
+                  example: "newpassword123"
+      responses:
+        '200':
+          description: Password changed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Password changed successfully"
+
+  # AI Features
+  /v1/ai/semantic-search:
+    post:
+      summary: Semantic search
+      description: Search for content using semantic similarity
+      tags: [AI Features]
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - query_vector
+              properties:
+                query_vector:
+                  type: array
+                  items:
+                    type: number
+                    format: float
+                  description: Vector representation of the search query
+                  example: [0.1, 0.2, 0.3, 0.4, 0.5]
+                limit:
+                  type: integer
+                  minimum: 1
+                  maximum: 100
+                  default: 10
+                  example: 5
+      responses:
+        '200':
+          description: Search completed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ContentEmbedding'
+
+  /v1/ai/recommendations:
+    post:
+      summary: Get personalized recommendations
+      description: Get AI-powered content recommendations for user
+      tags: [AI Features]
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - user_id
+              properties:
+                user_id:
+                  type: string
+                  example: "user_123"
+                recommendation_type:
+                  type: string
+                  enum: [content, services, news]
+                  default: content
+                  example: "content"
+      responses:
+        '200':
+          description: Recommendations retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  recommendations:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Recommendation'
+
+  /v1/ai/generate-embedding:
+    post:
+      summary: Generate content embedding
+      description: Generate vector embedding for content
+      tags: [AI Features]
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - content_type
+                - content_id
+                - title
+              properties:
+                content_type:
+                  type: string
+                  example: "news"
+                content_id:
+                  type: string
+                  example: "news_123"
+                title:
+                  type: string
+                  example: "Important News Article"
+                description:
+                  type: string
+                  example: "This is a detailed description of the news article"
+                category:
+                  type: string
+                  example: "politics"
+                tags:
+                  type: array
+                  items:
+                    type: string
+                  example: ["politics", "government"]
+                model_version:
+                  type: string
+                  default: "demo-v1.0"
+                  example: "demo-v1.0"
+      responses:
+        '200':
+          description: Embedding generated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContentEmbedding'
+
+  /v1/ai/track-interaction:
+    post:
+      summary: Track user interaction
+      description: Track user interaction for recommendation system
+      tags: [AI Features]
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - user_id
+                - content_type
+                - content_id
+                - interaction_type
+              properties:
+                user_id:
+                  type: string
+                  example: "user_123"
+                content_type:
+                  type: string
+                  example: "news"
+                content_id:
+                  type: string
+                  example: "news_123"
+                interaction_type:
+                  type: string
+                  enum: [view, like, save, share, comment]
+                  example: "like"
+                rating:
+                  type: number
+                  minimum: 1
+                  maximum: 5
+                  example: 4.5
+                duration_seconds:
+                  type: integer
+                  minimum: 0
+                  example: 120
+                metadata:
+                  type: object
+                  description: Additional metadata for the interaction
+                  example: {"source": "mobile_app", "version": "1.2.0"}
+      responses:
+        '200':
+          description: Interaction tracked successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Interaction tracked successfully"
+                  interaction_id:
+                    type: string
+                    example: "interaction_123"
+
+  /v1/ai/analytics:
+    post:
+      summary: Get AI analytics
+      description: Get analytics and metrics for AI features
+      tags: [AI Features]
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: string
+                  description: Optional user ID to filter analytics
+                  example: "user_123"
+      responses:
+        '200':
+          description: Analytics retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total_users:
+                    type: integer
+                    example: 1000
+                  total_interactions:
+                    type: integer
+                    example: 5000
+                  recommendation_accuracy:
+                    type: number
+                    format: float
+                    example: 0.85
+                  popular_content_types:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                          example: "news"
+                        count:
+                          type: integer
+                          example: 250
+
+components:
+  schemas:
+    AuthResponse:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/User'
+        access_token:
+          type: string
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        refresh_token:
+          type: string
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        token_type:
+          type: string
+          example: "Bearer"
+        expires_in:
+          type: integer
+          description: Token expiration time in seconds
+          example: 3600
+
+    TokenResponse:
+      type: object
+      properties:
+        access_token:
+          type: string
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        token_type:
+          type: string
+          example: "Bearer"
+        expires_in:
+          type: integer
+          example: 3600
+
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "user_123"
+        email:
+          type: string
+          format: email
+          example: "user@example.com"
+        name:
+          type: string
+          example: "João Silva"
+        cpf:
+          type: string
+          description: Brazilian CPF number
+          example: "12345678901"
+        phone:
+          type: string
+          example: "+5511999999999"
+        created_at:
+          type: string
+          format: date-time
+          example: "2024-01-15T10:30:00Z"
+        updated_at:
+          type: string
+          format: date-time
+          example: "2024-01-15T10:30:00Z"
+
+    ContentEmbedding:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "embedding_123"
+        content_type:
+          type: string
+          example: "news"
+        content_id:
+          type: string
+          example: "news_123"
+        title:
+          type: string
+          example: "Breaking News Article"
+        description:
+          type: string
+          example: "This is a detailed description of the news article"
+        embedding_vector:
+          type: array
+          items:
+            type: number
+            format: float
+          description: Vector representation of the content
+          example: [0.1, 0.2, 0.3, 0.4, 0.5]
+        category:
+          type: string
+          example: "politics"
+        tags:
+          type: array
+          items:
+            type: string
+          example: ["politics", "government"]
+        model_version:
+          type: string
+          example: "demo-v1.0"
+        created_at:
+          type: string
+          format: date-time
+          example: "2024-01-15T10:30:00Z"
+        updated_at:
+          type: string
+          format: date-time
+          example: "2024-01-15T10:30:00Z"
+
+    Recommendation:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "rec_123"
+        user_id:
+          type: string
+          example: "user_123"
+        recommendation_type:
+          type: string
+          enum: [content, services, news]
+          example: "content"
+        recommended_items:
+          type: array
+          items:
+            type: string
+          example: ["news_123", "service_456"]
+        scores:
+          type: object
+          additionalProperties:
+            type: number
+            format: float
+          example:
+            "news_123": 0.9
+            "service_456": 0.7
+        algorithm_used:
+          type: string
+          example: "collaborative_filtering"
+        expires_at:
+          type: string
+          format: date-time
+          example: "2024-01-16T10:30:00Z"
+        created_at:
+          type: string
+          format: date-time
+          example: "2024-01-15T10:30:00Z"
+
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "An error occurred"
+        code:
+          type: string
+          example: "VALIDATION_ERROR"
+        details:
+          type: object
+          description: Additional error details
+          example: {"field": "email", "reason": "invalid_format"}
+
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT Authorization header using the Bearer scheme
+
+tags:
+  - name: Authentication
+    description: User authentication and authorization
+  - name: User Management
+    description: User profile and account management
+  - name: AI Features
+    description: AI-powered features including recommendations and semantic search
+  - name: Health
+    description: Health monitoring and system status

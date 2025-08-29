@@ -1,0 +1,108 @@
+# Dart
+.dart_tool/
+packages/
+pubspec.lock
+
+# Build outputs
+build/
+.dart_tool/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Runtime data
+pids
+*.pid
+*.seed
+
+# Coverage directory used by tools like istanbul
+coverage/
+
+# Dependency directories
+node_modules/
+
+# Optional npm cache directory
+.npm
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'dart pub outdated'
+.dart_tool/pub/outdated.lock
+
+# Pub cache
+.dart_tool/pub/cache/
+
+# SQLite database files
+*.db
+*.sqlite
+*.sqlite3
+data/
+mock_server.db
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+
+# Process ID files
+*.pid
+mock_server.pid
+
+# Logs and debugging
+logs/
+*.log
+debug.log
+
+# Coverage reports
+coverage/
+lcov.info
+lcov-report/
+
+# Test outputs
+test-results/
+.test_output/
+
+# Generated documentation
+doc/api/
+
+# Local development files
+.local/
+dev/
+development/
+
+# Backup files
+*.backup
+*.orig
+*.rej
+
+# Archives
+*.tar.gz
+*.zip
+*.rar
+
+# Package manager lock files (if any)
+package-lock.json
+yarn.lock

@@ -1,0 +1,19 @@
+name: mock_server
+description: Simple Shelf mock server for cidadao_app APIs - organized by features
+version: 0.1.0
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  shelf: ^1.4.1
+  shelf_router: ^1.1.4
+  shelf_cors_headers: ^0.1.5
+  shelf_static: ^1.1.2
+  sqlite3: ^2.9.0
+  path: ^1.9.0
+
+dev_dependencies:
+  lints: ^3.0.0
+
+executables:
+  mock_server: main
